@@ -1,28 +1,23 @@
-// Maximize The Cut Segments
-// https://www.geeksforgeeks.org/problems/cutted-segments1642/1
+// Add 1 to a Linked List Number
+// https://www.geeksforgeeks.org/problems/add-1-to-a-number-represented-as-linked-list/1
 
-class Solution
-{
-    public:
-    vector<int> dp;
-    int helper(int n, int x, int y, int z)
-    {
-        if (n == 0) return 0;
-        if (n < 0) return INT_MIN;
-        
-        if (dp[n]!= -1) return dp[n];
-        
-        int op1 = helper(n-x, x, y, z);
-        int op2 = helper(n-y, x, y, z);
-        int op3 = helper(n-z, x, y, z);
-        
-        return dp[n] = 1+max(op1, max(op2, op3));
-        
+class Solution {
+  public:
+  int helper(Node* temp){
+        if(temp == NULL) return 1;
+        int carry = helper(temp->next);
+        temp->data += carry;
+        if(temp->data<10) return 0;
+        temp->data=0;
+        return 1;
     }
-    int maximizeTheCuts(int n, int x, int y, int z)
-    {
-        //Your code here
-        dp.assign(n+1, -1);
-        return max(0, helper(n, x, y, z));
+    Node* addOne(Node* head) {
+        int carry = helper(head);
+        if(carry == 1){
+            Node* newNode  = new Node(1);
+            newNode->next = head;
+            head = newNode;
+        }
+        return head;
     }
 };
