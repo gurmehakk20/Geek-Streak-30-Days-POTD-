@@ -1,22 +1,28 @@
-// Add 1 to a Linked List Number
-// https://www.geeksforgeeks.org/problems/add-1-to-a-number-represented-as-linked-list/1
+// Longest Common Substring
+// https://www.geeksforgeeks.org/problems/longest-common-substring1452/1
+
 class Solution {
   public:
-  int helper(Node* temp){
-        if(temp == NULL) return 1;
-        int carry = helper(temp->next);
-        temp->data += carry;
-        if(temp->data<10) return 0;
-        temp->data=0;
-        return 1;
-    }
-    Node* addOne(Node* head) {
-        int carry = helper(head);
-        if(carry == 1){
-            Node* newNode  = new Node(1);
-            newNode->next = head;
-            head = newNode;
+    int longestCommonSubstr(string str1, string str2) {
+        // your code here
+        
+        int m = str1.length();
+        int n = str2.length();
+        int ans = 0;
+        vector<vector<int>>dp(m+1, vector<int> (n+1));
+        for (int i = 1; i <= m; i++)
+        {
+            for (int j = 1; j <= n; j++)
+            {
+                if (str1[i-1] == str2[j-1])
+                {
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                    ans = max(ans, dp[i][j]);
+                }
+                else dp[i][j] = 0;
+            }
         }
-        return head;
+        return ans;
+        
     }
 };
